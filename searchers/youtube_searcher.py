@@ -1,5 +1,6 @@
 from pyyoutube import Api
 
+from helpers.string_helper import StringHelper
 from searchers.generic_searcher import GenericSearcher
 
 
@@ -11,17 +12,36 @@ class YoutubeSearcher(GenericSearcher):
         result = self.api_connection.search(q=search_term,
                                             search_type="video",
                                             count=max_results)
-        formatted_result = self._format_search_result(result)
+        formatted_result = self.format_search_result(result)
         return formatted_result
 
+    def get_duration_of_videos(self, video_ids):
+        result = self.api_connection.get_video_by_id(video_id=video_ids)
+        return result
+
     @staticmethod
-    def _format_search_result(search_result):
-        list_of_video_data = []
+    def format_search_result(search_result):
+        video_data = {
+            "all_titles": "",
+            "all_descriptions": "",
+            "all_video_ids": [],
+            "complete_video_description": [],
+        }
         for video in search_result.items:
-            video_data = {
-                "title": video.snippet.title,
-                "description": video.snippet.description,
-                "id": video.id.videoId
+            video_data["all_titles"] += \
+                StringHelper.remove_punctuation_from_string(video.snippet.title) + " "
+            video_data["all_descriptions"] += \
+                StringHelper.remove_punctuation_from_string(video.snippet.description) + " "
+            video_data["all_video_ids"].append(video.id.videoId)
+            video_data["complete_video_description"] = {
+                "video_title": video.snippet.title,
+                "video_description": video.snippet.description,
+                "video_id": video.id.videoId
             }
-            list_of_video_data.append(video_data)
-        return list_of_video_data
+        return video_data
+
+    @staticmethod
+    def format_video_durations(search_result):
+        for video in search_result.items:
+            video_duration = video.contentDetails.duration
+        pass
