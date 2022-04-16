@@ -1,6 +1,7 @@
 from pyyoutube import Api
 
 from helpers.string_helper import StringHelper
+from helpers.time_helper import TimeHelper
 from searchers.generic_searcher import GenericSearcher
 
 
@@ -46,5 +47,6 @@ class YoutubeSearcher(GenericSearcher):
     def format_video_durations(search_result):
         all_durations = []
         for video in search_result.items:
-            all_durations.append(video.contentDetails.duration)
+            video_duration_in_minutes = TimeHelper.convert_iso_to_minutes(video.contentDetails.duration)
+            all_durations.append(video_duration_in_minutes)
         return all_durations
