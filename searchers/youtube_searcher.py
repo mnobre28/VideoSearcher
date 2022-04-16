@@ -17,13 +17,15 @@ class YoutubeSearcher(GenericSearcher):
 
     def get_duration_of_videos(self, video_ids):
         result = self.api_connection.get_video_by_id(video_id=video_ids)
-        return result
+        video_durations = self.format_video_durations(result)
+        return video_durations
 
     @staticmethod
     def format_search_result(search_result):
         video_data = {
             "all_titles": "",
             "all_descriptions": "",
+            "all_durations": [],
             "all_video_ids": [],
             "complete_video_description": [],
         }
@@ -42,6 +44,7 @@ class YoutubeSearcher(GenericSearcher):
 
     @staticmethod
     def format_video_durations(search_result):
+        all_durations = []
         for video in search_result.items:
-            video_duration = video.contentDetails.duration
-        pass
+            all_durations.append(video.contentDetails.duration)
+        return all_durations
