@@ -23,7 +23,7 @@ def test_can_convert_iso_to_minutes(time_in_iso, time_in_minutes):
 
 @pytest.mark.parametrize("watch_time_limit, video_durations, expected_index",
                          ((30, [5, 15, 40, 25], 2),
-                          (30, [5, 40, 99, 15, 25, 29], 1)))
+                          (30, [5, 40, 99, 15, 25, 29], 2)))
 def test_can_watch_videos_within_daily_limit(watch_time_limit, video_durations, expected_index):
     video_durations = TimeHelper.remove_video_durations_longer_than_limit(watch_time_limit, video_durations)
     index = TimeHelper.watch_videos_for_a_day(watch_time_limit, video_durations)
