@@ -13,7 +13,11 @@ class YoutubeSearcher(GenericSearcher):
         result = self.api_connection.search(q=search_term,
                                             search_type="video",
                                             count=max_results)
-        formatted_result = self.format_search_result(result)
+        try:
+            formatted_result = self.format_search_result(result)
+        except Exception:
+            print("There was an error fetching information from the Youtube API. Please try a different API key.")
+            raise Exception
         return formatted_result
 
     def get_duration_of_videos(self, video_ids):
