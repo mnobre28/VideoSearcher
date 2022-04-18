@@ -1,4 +1,8 @@
-#Main project
+# Executable
+
+To run the executable, simply open the main.exe file.
+
+# Main project
 
 To run the project, first install the requirements:
 
