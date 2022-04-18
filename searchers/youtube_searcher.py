@@ -1,4 +1,4 @@
-from pyyoutube import Api
+from pyyoutube import Api, PyYouTubeException
 
 from helpers.string_helper import StringHelper
 from helpers.time_helper import TimeHelper
@@ -10,20 +10,24 @@ class YoutubeSearcher(GenericSearcher):
         self.api_connection = Api(api_key=api_key)
 
     def search(self, search_term, max_results=200):
-        result = self.api_connection.search(q=search_term,
-                                            search_type="video",
-                                            count=max_results)
         try:
+            result = self.api_connection.search(q=search_term,
+                                                search_type="video",
+                                                count=max_results)
             formatted_result = self.format_search_result(result)
-        except Exception:
+            return formatted_result
+        except PyYouTubeException:
             print("There was an error fetching information from the Youtube API. Please try a different API key.")
             raise Exception
-        return formatted_result
 
     def get_duration_of_videos(self, video_ids):
         list_of_durations = []
         for i in range(0, 200, 50):
-            result = self.api_connection.get_video_by_id(video_id=video_ids[i:i+50])
+            try:
+                result = self.api_connection.get_video_by_id(video_id=video_ids[i:i+50])
+            except PyYouTubeException:
+                print("There was an error fetching information from the Youtube API. Please try a different API key.")
+                raise Exception
             video_durations = self.format_video_durations(result)
             list_of_durations += video_durations
         return list_of_durations

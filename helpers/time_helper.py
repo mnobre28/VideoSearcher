@@ -25,9 +25,6 @@ class TimeHelper:
 
     @staticmethod
     def watch_videos_for_a_day(watch_time_limit, video_durations, index=0):
-        # The user will not expend more time watching videos than his daily max.
-        # The user will not start another video unless he can finish on the same day.
-        # Videos longer than the longest day will be ignored.
         current_video_duration = video_durations[index]
 
         while watch_time_limit >= current_video_duration and index < len(video_durations):

@@ -9,7 +9,7 @@ if __name__ == '__main__':
     api_key = input()
     print("Enter search words:")
     search_term = input()
-    print("Enter daily watch time in minutes (example: 10, 10, 10, 10, 10, 10, 10):")
+    print("Enter daily watch time in minutes (example: 10, 20, 30, 40, 50, 60, 70):")
     daily_watch_time = InputHelper.format_watch_time(input())
 
     print("Searching, please wait...")
@@ -30,3 +30,7 @@ if __name__ == '__main__':
     if response == "Y" or response == "y":
         for description in video_list["complete_video_description"]:
             print(description)
+
+    a = input('Press a key to exit')
+    if a:
+        exit(0)
