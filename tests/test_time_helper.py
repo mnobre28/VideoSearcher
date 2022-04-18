@@ -28,5 +28,3 @@ def test_can_watch_videos_within_daily_limit(watch_time_limit, video_durations, 
     video_durations = TimeHelper.remove_video_durations_longer_than_limit(watch_time_limit, video_durations)
     index = TimeHelper.watch_videos_for_a_day(watch_time_limit, video_durations)
     assert index == expected_index
-
-

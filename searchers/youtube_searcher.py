@@ -17,9 +17,12 @@ class YoutubeSearcher(GenericSearcher):
         return formatted_result
 
     def get_duration_of_videos(self, video_ids):
-        result = self.api_connection.get_video_by_id(video_id=video_ids)
-        video_durations = self.format_video_durations(result)
-        return video_durations
+        list_of_durations = []
+        for i in range(0, 200, 50):
+            result = self.api_connection.get_video_by_id(video_id=video_ids[i:i+50])
+            video_durations = self.format_video_durations(result)
+            list_of_durations += video_durations
+        return list_of_durations
 
     @staticmethod
     def format_search_result(search_result):
